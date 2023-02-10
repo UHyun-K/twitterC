@@ -4,20 +4,21 @@ import Auth from "routes/Auth";
 import Navigation from "components/Navigation";
 import Profile from "routes/Profile";
 
-const AppRouter = (isLoggedIn) => {
+const AppRouter = ({ isLoggedIn, userObj }) => {
     return (
         <BrowserRouter>
             {isLoggedIn && <Navigation />}
-            <Routes>
-                {isLoggedIn ? (
-                    <>
-                        <Route path="/" element={<Auth />} />
-                        <Route path="/profile" element={<Profile />} />
-                    </>
-                ) : (
-                    <Route path="/" element={<Home />} />
-                )}
-            </Routes>
+
+            {isLoggedIn ? (
+                <Routes>
+                    <Route path="/" element={<Home />} userObj={userObj} />
+                </Routes>
+            ) : (
+                <Routes>
+                    <Route path="/" element={<Auth />} />
+                    <Route path="/profile" element={<Profile />} />
+                </Routes>
+            )}
         </BrowserRouter>
     );
 };
