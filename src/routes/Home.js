@@ -7,6 +7,7 @@ import {
     query,
     orderBy,
 } from "firebase/firestore";
+import Nweet from "components/Nweet";
 const Home = ({ userObj }) => {
     const [nweet, setNweet] = useState("");
     const [nweets, setNweets] = useState([]);
@@ -37,12 +38,11 @@ const Home = ({ userObj }) => {
         event.preventDefault();
 
         try {
-            const docRef = await addDoc(collection(db, "nweets"), {
+            await addDoc(collection(db, "nweets"), {
                 text: nweet,
                 createdAt: Date.now(),
                 creatorId: userObj.uid,
             });
-            console.log("Document written with ID: ", docRef.id);
         } catch (e) {
             console.error("Error adding document: ", e);
         }
@@ -71,12 +71,11 @@ const Home = ({ userObj }) => {
             </form>
             <div>
                 {nweets.map((nweet) => (
-                    <div key={nweet.id}>
-                        <h4>{nweet.text}</h4>
-                        <small>
-                            {new Date(nweet.createdAt).toLocaleString()}
-                        </small>
-                    </div>
+                    <Nweet
+                        key={nweet.id}
+                        nweetObj={nweet}
+                        isOwner={nweet.creatorId === userObj.uid}
+                    />
                 ))}
             </div>
         </div>
