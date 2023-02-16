@@ -1,5 +1,5 @@
 import { React, useEffect, useRef, useState } from "react";
-import { db, storageService } from "fbase";
+import { dbService, storageService } from "fbase";
 import {
     addDoc,
     collection,
@@ -18,8 +18,8 @@ const Home = ({ userObj }) => {
     const fileInput = useRef();
 
     /*   const getNweets = async () => {
-        const dbNweets = await getDocs(collection(db, "nweets"));
-        dbNweets.forEach((doc) => {
+        const dbServiceNweets = await getDocs(collection(dbService, "nweets"));
+        dbServiceNweets.forEach((doc) => {
             const nweetObj = {
                 ...doc.data(),
                 id: doc.id,
@@ -30,7 +30,10 @@ const Home = ({ userObj }) => {
     }; */
 
     useEffect(() => {
-        const q = query(collection(db, "nweets"), orderBy("createdAt", "desc"));
+        const q = query(
+            collection(dbService, "nweets"),
+            orderBy("createdAt", "desc")
+        );
         onSnapshot(q, (snapshot) => {
             const nweetArr = snapshot.docs.map((doc) => ({
                 id: doc.id,
@@ -53,7 +56,7 @@ const Home = ({ userObj }) => {
         }
 
         try {
-            await addDoc(collection(db, "nweets"), {
+            await addDoc(collection(dbService, "nweets"), {
                 text: nweet,
                 createdAt: Date.now(),
                 creatorId: userObj.uid,
@@ -64,6 +67,8 @@ const Home = ({ userObj }) => {
         }
 
         setNweet("");
+        setAttachment("");
+        fileInput.current.value = "";
     };
 
     const onChange = (event) => {

@@ -1,5 +1,5 @@
 import { React, useState } from "react";
-import { db, storageService } from "fbase";
+import { dbService, storageService } from "fbase";
 import { deleteDoc, updateDoc, doc } from "firebase/firestore";
 import { deleteObject, ref } from "firebase/storage";
 
@@ -7,13 +7,19 @@ export default function Nweet({ nweetObj, isOwner }) {
     const [editing, setEditing] = useState(false);
     const [newNweet, setNewNweet] = useState(nweetObj.text);
 
-    const NweetTextRef = doc(db, "nweets", `${nweetObj.id}`);
+    const NweetTextRef = doc(dbService, "nweets", `${nweetObj.id}`);
     const onDeleteClick = async () => {
         const ok = window.confirm("Are you srue you want to delete this nweet");
         if (ok) {
             await deleteDoc(NweetTextRef);
-            const urlRef = ref(storageService, nweetObj.attachmentUrl);
-            await deleteObject(urlRef);
+            if (nweetObj.attachmentUrl != "") {
+                try {
+                    const urlRef = ref(storageService, nweetObj.attachmentUrl);
+                    await deleteObject(urlRef);
+                } catch (error) {
+                    console.log("deleting file Error:", error);
+                }
+            }
         }
     };
     const toggleEditing = () => {
