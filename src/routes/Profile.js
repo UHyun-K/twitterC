@@ -1,37 +1,45 @@
-import { authService, dbService } from "fbase";
-import React from "react";
+import { authService } from "fbase";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-    collection,
-    orderBy,
-    getDocs,
-    query,
-    where,
-} from "@firebase/firestore";
 
-import { useEffect } from "react";
+import { updateProfile } from "firebase/auth";
 
-export default function Profile({ userObj }) {
+export default function Profile({ userObj, refreshUser }) {
+    console.log(userObj);
+
     const navigate = useNavigate();
+    const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
     const onLogoutClick = () => {
         authService.signOut();
         navigate("/");
     };
-    const getMyNweets = async () => {
-        const q = query(
-            collection(dbService, "nweets"),
-            where("creatorId", "==", userObj.uid)
-        );
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-            console.log(doc.id, "=>", doc.data());
-        });
+
+    const onChange = (event) => {
+        const {
+            target: { value },
+        } = event;
+        setNewDisplayName(value);
     };
-    useEffect(() => {
-        getMyNweets();
-    }, []);
+    const onSubmit = async (event) => {
+        event.preventDefault();
+        if (userObj.displayName !== newDisplayName) {
+            await updateProfile(authService.currentUser, {
+                displayName: newDisplayName,
+            });
+            refreshUser();
+        }
+    };
     return (
         <>
+            <form onSubmit={onSubmit}>
+                <input
+                    onChange={onChange}
+                    type="text"
+                    placeholder="Display Name"
+                    value={newDisplayName}
+                />
+                <input type="submit" value="UpdateProfile" />
+            </form>
             <button onClick={onLogoutClick}>Logout</button>
         </>
     );
