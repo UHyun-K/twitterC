@@ -47,7 +47,7 @@ export default function AuthForm() {
 
     return (
         <>
-            <form onSubmit={onSubmit}>
+            <form onSubmit={onSubmit} className="container">
                 <input
                     value={email}
                     name="email"
@@ -55,6 +55,7 @@ export default function AuthForm() {
                     placeholder="Email"
                     required
                     onChange={onChange}
+                    className="authInput"
                 />
                 <input
                     value={password}
@@ -62,16 +63,18 @@ export default function AuthForm() {
                     type="password"
                     placeholder="password"
                     onChange={onChange}
+                    className="authInput"
                 />
                 <input
                     type="submit"
                     value={newAccount ? "Create Account" : "LogIn"}
+                    className="authSubmit"
                 />
+                {error && <span className="authError">{error}</span>}
             </form>
-            <span onClick={toggleAccount}>
+            <span onClick={toggleAccount} className="authSwitch">
                 {newAccount ? "LogIn" : " Create Account"}
             </span>
-            <h2>{error}</h2>
         </>
     );
 }

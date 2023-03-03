@@ -11,6 +11,7 @@ function App() {
                 ? setUserObj({
                       displayName: user.displayName,
                       uid: user.uid,
+                      photoURL: user.photoURL,
                   })
                 : setUserObj(null);
             setInit(true);
@@ -21,6 +22,7 @@ function App() {
         setUserObj({
             displayName: user.displayName,
             uid: user.uid,
+            photoURL: user.photoURL,
         });
     };
     return (
