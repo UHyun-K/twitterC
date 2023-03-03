@@ -3,7 +3,12 @@ import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { updateProfile } from "firebase/auth";
-import { getDownloadURL, ref, uploadString } from "firebase/storage";
+import {
+    deleteObject,
+    getDownloadURL,
+    ref,
+    uploadString,
+} from "firebase/storage";
 import { v4 } from "uuid";
 import { addDoc, collection } from "firebase/firestore";
 
@@ -23,7 +28,7 @@ export default function Profile({ userObj, refreshUser }) {
         } = event;
         setNewDisplayName(value);
     };
-    const onClearProfile = () => {
+    const onClearProfile = async () => {
         setProfileImg(null);
         fileInput.current.value = "";
     };
@@ -48,16 +53,18 @@ export default function Profile({ userObj, refreshUser }) {
             );
             profileUrl = await getDownloadURL(response.ref);
             try {
+                const prevImgRef = ref(storageService, userObj.photoURL);
+                await deleteObject(prevImgRef);
                 await updateProfile(authService.currentUser, {
                     photoURL: profileUrl,
                 });
             } catch (error) {
                 console.log(`error message:$`, error);
             }
-            setProfileImg(null);
         }
-        refreshUser();
+
         onClearProfile();
+        refreshUser();
     };
     const onFileChange = (event) => {
         const {
