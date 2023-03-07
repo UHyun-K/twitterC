@@ -43,15 +43,18 @@ form {
     display: flex;
     flex-direction: column;
 }
+.container img {
+    margin: 0 auto;
+}
 
 .formInput {
     width: 100%;
     padding: 10px 20px;
     border-radius: 20px;
-    border: 1px solid black;
+    border: 1px solid gray;
     text-align: center;
-    background-color: white;
-    color: black;
+
+    color: white;
 }
 
 .formBtn {
@@ -71,7 +74,24 @@ form {
 }
 
 /* Profile Page */
-
+.profileImg__container {
+    position: relative;
+    display: flex;
+}
+.profileUrl {
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
+}
+.profile label {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+}
+.profile span {
+    padding: 10px 0;
+}
 .profileForm {
     border-bottom: 1px solid rgba(255, 255, 255, 0.9);
     padding-bottom: 30px;
@@ -105,18 +125,20 @@ form {
 
 .factoryInput__input {
     flex-grow: 1;
-    height: 40px;
-    padding: 0px 20px;
+    height: 85px;
+    padding: 10px 55px 0 20px;
     color: white;
     border: 1px solid #04aaff;
-    border-radius: 20px;
+    border-radius: 6px;
     font-weight: 500;
     font-size: 12px;
+    resize: none;
+    background: black;
 }
 
 .factoryInput__arrow {
     position: absolute;
-    right: 0;
+    right: 10px;
     background-color: #04aaff;
     height: 40px;
     width: 40px;
@@ -143,9 +165,8 @@ form {
 }
 
 .factoryForm__attachment img {
-    height: 80px;
-    width: 80px;
-    border-radius: 40px;
+    height: 90px;
+    width: 90px;
 }
 
 .factoryForm__clear {
@@ -169,29 +190,39 @@ form {
 
 .nweet {
     margin-bottom: 20px;
-    background-color: white;
+    background-color: transparent;
     width: 100%;
     max-width: 320px;
-    padding: 20px;
-    border-radius: 10px;
+    padding: 10px;
     position: relative;
     display: flex;
-    flex-direction: column;
-    color: rgba(0, 0, 0, 0.8);
+    border-bottom: 1px solid gray;
 }
 
 .nweet h4 {
     font-size: 14px;
+    line-height: 18px;
 }
 
-.nweet img {
-    right: -10px;
-    top: 20px;
-    position: absolute;
-    border-radius: 50%;
+.nweet__content {
+    display: flex;
+    flex-direction: column;
+}
+.nweet__content img {
+    width: 50%;
+    padding-top: 10px;
+}
+.nweet__content-info {
+    padding-bottom: 5px;
+    font-size: 12px;
+    color: darkgray;
+}
+.nweet__profile img {
     width: 50px;
     height: 50px;
     margin-top: 10px;
+    border-radius: 50%;
+    margin-right: 13px;
 }
 
 .nweet__actions {

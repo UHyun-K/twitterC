@@ -32,6 +32,8 @@ export default function NweetFactory({ userObj }) {
                 text: nweet,
                 createdAt: Date.now(),
                 creatorId: userObj.uid,
+                photoUrl: userObj.photoURL,
+                displayName: userObj.displayName,
                 attachmentUrl,
             });
         } catch (e) {
@@ -70,13 +72,13 @@ export default function NweetFactory({ userObj }) {
     return (
         <form onSubmit={onSubmit} className="factoryForm">
             <div className="factoryInput__container">
-                <input
+                <textarea
                     className="factoryInput__input"
                     value={nweet}
                     onChange={onChange}
                     type="text"
                     placeholder="What's on your mind?"
-                    maxLength={120}
+                    maxLength={300}
                 />
                 <input
                     type="submit"
@@ -91,6 +93,7 @@ export default function NweetFactory({ userObj }) {
             <input
                 id="attach-file"
                 type="file"
+                ref={fileInput}
                 accept="image/*"
                 onChange={onFileChange}
                 style={{
@@ -104,6 +107,7 @@ export default function NweetFactory({ userObj }) {
                         style={{
                             backgroundImage: attachment,
                         }}
+                        alt="image preview"
                     />
                     <div
                         className="factoryForm__clear"

@@ -3,8 +3,10 @@ import { authService } from "fbase";
 import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
+    updateProfile,
 } from "firebase/auth";
-export default function AuthForm() {
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
+export default function AuthForm({ refreshUser }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [newAccount, setNewAccount] = useState(true);
@@ -23,22 +25,34 @@ export default function AuthForm() {
     };
     const onSubmit = async (event) => {
         event.preventDefault();
-        let data;
+
         try {
             if (newAccount) {
-                data = await createUserWithEmailAndPassword(
+                await createUserWithEmailAndPassword(
                     authService,
                     email,
                     password
                 );
+                /*Default user's DisplayName, photoURL*/
+                const [defaultDisplayName] = email.split("@", 1);
+
+                const storage = getStorage();
+                const gsReference = ref(
+                    storage,
+                    "gs://twitter-aa12e.appspot.com/iconmonstr-user-20-240 (1).png"
+                );
+
+                const photoURL = await getDownloadURL(gsReference);
+                console.log(photoURL);
+                await updateProfile(authService.currentUser, {
+                    photoURL,
+                    displayName: defaultDisplayName,
+                });
+                await refreshUser();
+                console.log(refreshUser);
             } else {
-                data = await signInWithEmailAndPassword(
-                    authService,
-                    email,
-                    password
-                );
+                await signInWithEmailAndPassword(authService, email, password);
             }
-            console.log(data);
         } catch (error) {
             setError(error.message);
         }

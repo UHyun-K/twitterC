@@ -12,7 +12,7 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { authService } from "fbase";
 import AuthForm from "components/AuthForm";
-export default function Auth() {
+export default function Auth({ refreshUser }) {
     const onSocialClick = async (event) => {
         const {
             target: { name },
@@ -38,7 +38,7 @@ export default function Auth() {
                 size="3x"
                 style={{ marginBottom: 30 }}
             />
-            <AuthForm />
+            <AuthForm refreshUser={refreshUser} />
 
             <div className="authBtns">
                 <button

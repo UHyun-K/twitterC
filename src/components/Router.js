@@ -15,7 +15,7 @@ const AppRouter = ({ isLoggedIn, userObj, refreshUser }) => {
                         maxWidth: 890,
                         width: "100%",
                         margin: "0 auto",
-                        marginTop: 80,
+                        marginTop: 15,
                         display: "flex",
                         justifyContent: "center",
                     }}
@@ -35,7 +35,10 @@ const AppRouter = ({ isLoggedIn, userObj, refreshUser }) => {
                 </div>
             ) : (
                 <Routes>
-                    <Route path="/" element={<Auth />} />
+                    <Route
+                        path="/"
+                        element={<Auth refreshUser={refreshUser} />}
+                    />
                 </Routes>
             )}
         </BrowserRouter>

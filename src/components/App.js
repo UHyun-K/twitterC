@@ -19,6 +19,7 @@ function App() {
     }, []);
     const refreshUser = () => {
         const user = authService.currentUser;
+        console.log("refreshUser is working", user);
         setUserObj({
             displayName: user.displayName,
             uid: user.uid,
@@ -36,7 +37,15 @@ function App() {
             ) : (
                 "Initializng..."
             )}
-            <footer>&copy; {new Date().getFullYear()} Twitter</footer>
+            <footer
+                style={{
+                    position: "absolute",
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                }}
+            >
+                &copy; {new Date().getFullYear()} Twitter
+            </footer>
         </>
     );
 }
