@@ -6,7 +6,7 @@ import Profile from "routes/Profile";
 
 const AppRouter = ({ isLoggedIn, userObj, refreshUser }) => {
     return (
-        <HashRouter base="/">
+        <HashRouter basename={process.env.PUBLIC_URL}>
             {isLoggedIn && <Navigation userObj={userObj} />}
 
             {isLoggedIn ? (
