@@ -6,7 +6,7 @@ import Profile from "routes/Profile";
 
 const AppRouter = ({ isLoggedIn, userObj, refreshUser }) => {
     return (
-        <BrowserRouter basename="/">
+        <HashRouter basename="/">
             {isLoggedIn && <Navigation userObj={userObj} />}
 
             {isLoggedIn ? (
@@ -41,7 +41,7 @@ const AppRouter = ({ isLoggedIn, userObj, refreshUser }) => {
                     />
                 </Routes>
             )}
-        </BrowserRouter>
+        </HashRouter>
     );
 };
 export default AppRouter;
